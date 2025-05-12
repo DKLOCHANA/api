@@ -43,10 +43,8 @@ def sms_watcher():
             if now - ts > timedelta(minutes=2):
                 try:
                     message = client.messages.create(
-                        body=(
-                            "This is a safety notification from MyDayMate - We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, and we thought you might want to check in. - Last active: over 12 hours ago. – MyDayMate"
-                            
-                        ),
+                        body="MyDayMate Alert: No recent activity from Lochana Edirisooriya (0711710593). Last seen over 12 hours ago. Please check in. – MyDayMate",
+
                         from_=TWILIO_PHONE,
                         to=phone
                     )
