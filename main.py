@@ -4,16 +4,16 @@ from datetime import datetime, timedelta
 import threading
 import time
 from twilio.rest import Client
-import pytz  # To handle timezones
+import pytz
 import os
 
 app = FastAPI()
 phone_records = {}
 
-# Directly storing Twilio config
-TWILIO_SID = "ACb13005110eaf346d809e40aa745cf66c"
-TWILIO_AUTH_TOKEN = "0806c548309adc4700ff19a1569cbea9"
-TWILIO_PHONE = "+18155590365"
+# Load Twilio credentials and sender number from Railway environment variables
+TWILIO_SID = os.getenv("TWILIO_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_PHONE = os.getenv("TWILIO_PHONE")
 
 client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 
@@ -26,24 +26,26 @@ class PhoneData(BaseModel):
 
 @app.post("/save-number")
 def save_number(data: PhoneData):
-    # Convert the timestamp to Sri Lankan Time (SLT)
     timestamp = datetime.fromisoformat(data.timestamp).astimezone(SLT)
     phone_records[data.phone] = timestamp
     return {"status": "saved"}
 
-# Background thread with timezone handling and error logging
 def sms_watcher():
     while True:
-        now = datetime.now(SLT)  # Current time in SLT
-        print(f"Checking SMS at {now}")  # Log for debugging
+        now = datetime.now(SLT)
+        print(f"Checking SMS at {now}")
         for phone, ts in list(phone_records.items()):
-            if now - ts > timedelta(minutes =2):  # Check if 10 minutes have passed
+            if now - ts > timedelta(minutes=2):
                 try:
                     message = client.messages.create(
-                        body="This is a safety alert from MyDayMate
-                        We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, and we thought you might want to check in with them.
-                        Last activity was over 12 hours ago. 
-                        – MyDayMate",
+                        body=(
+                            
+                            "This is a safety alert from MyDayMate.\n\n"
+                            "We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, "
+                            "and we thought you might want to check in with them.\n\n"
+                            "🕒 Last seen: Over 12 hours ago.\n"
+                            "– MyDayMate"
+                        ),
                         from_=TWILIO_PHONE,
                         to=phone
                     )
@@ -51,9 +53,9 @@ def sms_watcher():
                     del phone_records[phone]
                 except Exception as e:
                     print(f"SMS error: {e}")
-        time.sleep(60)  # Check every 60 seconds
+        time.sleep(60)
 
-# Start the background thread
+# Start background SMS checker
 threading.Thread(target=sms_watcher, daemon=True).start()
 
 if __name__ == "__main__":
