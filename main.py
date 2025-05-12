@@ -11,9 +11,9 @@ app = FastAPI()
 phone_records = {}
 
 # Load Twilio credentials and sender number from Railway environment variables
-TWILIO_AUTH_TOKEN="${{shared.TWILIO_AUTH_TOKEN}}"
-TWILIO_PHONE="${{shared.TWILIO_PHONE}}"
-TWILIO_SID="${{shared.TWILIO_SID}}"
+TWILIO_SID = os.getenv("TWILIO_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_PHONE = os.getenv("TWILIO_PHONE")
 
 client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 
@@ -34,9 +34,8 @@ def sms_watcher():
     while True:
         now = datetime.now(SLT)
         print(f"Checking SMS at {now}")
-        print("SID:", TWILIO_SID)
-        print("TOKEN:", TWILIO_AUTH_TOKEN)
-        print("PHONE:", TWILIO_PHONE)
+        print(f"TWILIO_SID: {os.getenv('TWILIO_SID')}")
+print(f"TWILIO_AUTH_TOKEN: {os.getenv('TWILIO_AUTH_TOKEN')}")
         for phone, ts in list(phone_records.items()):
             if now - ts > timedelta(minutes=2):
                 try:
