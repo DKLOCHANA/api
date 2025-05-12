@@ -34,18 +34,20 @@ def sms_watcher():
     while True:
         now = datetime.now(SLT)
         print(f"Checking SMS at {now}")
+        
+        # Print the Twilio credentials (for debugging purposes)
         print(f"TWILIO_SID: {os.getenv('TWILIO_SID')}")
-print(f"TWILIO_AUTH_TOKEN: {os.getenv('TWILIO_AUTH_TOKEN')}")
+        print(f"TWILIO_AUTH_TOKEN: {os.getenv('TWILIO_AUTH_TOKEN')}")
+        
         for phone, ts in list(phone_records.items()):
             if now - ts > timedelta(minutes=2):
                 try:
                     message = client.messages.create(
                         body=(
-                            
                             "This is a safety alert from MyDayMate.\n\n"
                             "We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, "
                             "and we thought you might want to check in with them.\n\n"
-                            "🕒 Last seen: Over 12 hours ago.\n"
+                            " Last seen: Over 12 hours ago.\n"
                             "– MyDayMate"
                         ),
                         from_=TWILIO_PHONE,
