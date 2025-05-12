@@ -40,7 +40,7 @@ def sms_watcher():
             if now - ts > timedelta(minutes =2):  # Check if 10 minutes have passed
                 try:
                     message = client.messages.create(
-                        body="🚨 This is a safety alert from MyDayMate
+                        body="This is a safety alert from MyDayMate
                         We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, and we thought you might want to check in with them.
                         Last activity was over 12 hours ago. 
                         – MyDayMate",
