@@ -44,11 +44,8 @@ def sms_watcher():
                 try:
                     message = client.messages.create(
                         body=(
-                            "This is a safety alert from MyDayMate.\n\n"
-                            "We haven't seen activity from Lochana Edirisooriya (0711710593) in a while, "
-                            "and we thought you might want to check in with them.\n\n"
-                            " Last seen: Over 12 hours ago.\n"
-                            "– MyDayMate"
+                            "This is a safety alert from MyDayMate."
+                            
                         ),
                         from_=TWILIO_PHONE,
                         to=phone
