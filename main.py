@@ -37,7 +37,7 @@ def sms_watcher():
         now = datetime.now(SLT)  # Current time in SLT
         print(f"Checking SMS at {now}")  # Log for debugging
         for phone, ts in list(phone_records.items()):
-            if now - ts > timedelta(minutes=10):  # Check if 10 minutes have passed
+            if now - ts > timedelta(hours=10):  # Check if 10 minutes have passed
                 try:
                     message = client.messages.create(
                         body="10 minutes have passed!",
