@@ -10,9 +10,9 @@ app = FastAPI()
 phone_records = {}
 
 # Twilio config from environment
-TWILIO_SID = os.getenv("TWILIO_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_PHONE = os.getenv("TWILIO_PHONE")
+TWILIO_SID = "ACb13005110eaf346d809e40aa745cf66c"
+TWILIO_AUTH_TOKEN = "0806c548309adc4700ff19a1569cbea9"
+TWILIO_PHONE = "+18155590365"
 
 client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 
