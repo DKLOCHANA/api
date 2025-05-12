@@ -11,9 +11,9 @@ app = FastAPI()
 phone_records = {}
 
 # Load Twilio credentials and sender number from Railway environment variables
-TWILIO_SID = os.getenv("TWILIO_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_PHONE = os.getenv("TWILIO_PHONE")
+TWILIO_AUTH_TOKEN="${{shared.TWILIO_AUTH_TOKEN}}"
+TWILIO_PHONE="${{shared.TWILIO_PHONE}}"
+TWILIO_SID="${{shared.TWILIO_SID}}"
 
 client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 
