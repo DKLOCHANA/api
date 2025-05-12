@@ -44,3 +44,7 @@ def sms_watcher():
         time.sleep(60)
 
 threading.Thread(target=sms_watcher, daemon=True).start()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8080)
