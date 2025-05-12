@@ -34,6 +34,9 @@ def sms_watcher():
     while True:
         now = datetime.now(SLT)
         print(f"Checking SMS at {now}")
+        print("SID:", TWILIO_SID)
+        print("TOKEN:", TWILIO_AUTH_TOKEN)
+        print("PHONE:", TWILIO_PHONE)
         for phone, ts in list(phone_records.items()):
             if now - ts > timedelta(minutes=2):
                 try:
