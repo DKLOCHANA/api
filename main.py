@@ -40,7 +40,7 @@ def sms_watcher():
         print(f"TWILIO_AUTH_TOKEN: {os.getenv('TWILIO_AUTH_TOKEN')}")
         
         for phone, ts in list(phone_records.items()):
-            if now - ts > timedelta(minutes=2):
+            if now - ts > timedelta(hours=12):
                 try:
                     message = client.messages.create(
                         body="MyDayMate Alert: No recent activity from Lochana Edirisooriya (0711710593). Last seen over 12 hours ago. Please check in. – MyDayMate",
